@@ -9,16 +9,24 @@ headers = {
 }
 time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 print(time)
+'''
+badminton
+{"mainId":"09bcd2404fcb4af9951b38f03c2837db","sportsType":"YuMaoQiu","identity":"student","billDateTime":"2022-04-15 17:30:00","totalAmount":10,"payable":10,"payment":10,"detailedList":[{"venueId":"7f82a4d546e94a8b9719206a61be842b","price":10,"siteCount":1,"bookingType":1,"startDateTime":"2022-04-15 18:00","endDateTime":"2022-04-15 19:00","payable":10,"payment":10}]}
+3:venueId=e47431fbfd524876a03a1c5507d85beb
+4号：venueId=9090387ea7b04591a73b1059114c0ab9
+'''
 url = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/CreateOrder'
-data = {"mainId": "09bcd2404fcb4af9951b38f03c2837db", "sportsType": "PingPangQiu", "identity": "student", "billDateTime": time, "totalAmount": 5, "payable": 5, "payment": 5,
-        "detailedList": [{"venueId": "e63439c1acc34711a98c2a2d4cedf7fc", "price": 5, "siteCount": 1, "bookingType": 1, "startDateTime": "2022-04-15 17:00", "endDateTime": "2022-04-15 18:00", "payable": 5, "payment": 5}]}
+data = {"mainId": "09bcd2404fcb4af9951b38f03c2837db", "sportsType": "YuMaoQiu", "identity": "student", "billDateTime": time, "totalAmount": 10, "payable": 10, "payment": 10,
+        "detailedList": [{"venueId": "9090387ea7b04591a73b1059114c0ab9", "price": 10, "siteCount": 1, "bookingType": 1, "startDateTime": "2022-04-15 18:00", "endDateTime": "2022-04-15 19:00", "payable": 10, "payment": 10}]}
 r = requests.post(url, json=data, headers=headers, verify=False)
 print(r.text)
 r = r.json()
 data = r['data']
-url1 = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/GetUnpaidOrderInfo/'+str(data)
-url2 = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/GetMemberPaymentType/' +str(data)
-r1=requests.get(url1, headers=headers, verify=False)
-r2=requests.get(url2, headers=headers, verify=False)
+url1 = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/GetUnpaidOrderInfo/' + \
+    str(data)
+url2 = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/GetMemberPaymentType/' + \
+    str(data)
+r1 = requests.get(url1, headers=headers, verify=False)
+r2 = requests.get(url2, headers=headers, verify=False)
 print(r1.text)
 print(r2.text)
