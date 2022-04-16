@@ -3,40 +3,45 @@ import json
 from urllib import parse
 import requests
 import datetime
+import time
+
 def main_handler(event, context):
     main()
 
 
-def get_position(eachvalue, position, start, end):
+def get_position(eachvalue, positions, start, end):
     sites = {1: "c7a1e6c77abb48c8b79e5da2bed939c7",
              2: "",
              3: "e47431fbfd524876a03a1c5507d85beb",
              4: "9090387ea7b04591a73b1059114c0ab9",
              5: "ac85e1a930464d0d8e30f129b661cfea", }
-    day = datetime.datetime.now().strftime('%Y-%m-%d')
-    time_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    day = (datetime.datetime.now() +
+           datetime.timedelta(hours=8)).strftime('%Y-%m-%d')
+    time_now = (datetime.datetime.now()+datetime.timedelta(hours=8)
+                ).strftime('%Y-%m-%d %H:%M:%S')
+    print(time_now)
     print(day)
-    position = sites[position]
+    # position = sites[position]
     # start_time = day+" "+start+":00"
     # end_time = day+" "+end+":00"
     each_value = eachvalue
     gap = end-start
     detail_list = []
     for i in range(gap):
-        start_time = day+" "+str(start+i)+":00"
-        end_time = day+" "+str(start+i+1)+":00"
-        detail = {"venueId": position, "price": each_value, "siteCount": 1,
-                  "bookingType": 1, "startDateTime": start_time, "endDateTime": end_time,
-                  "payable": each_value, "payment": each_value}
-        detail_list.append(detail)
-    print(detail_list)
+        for j in range(len(positions)):
+            start_time = day+" "+str(start+i)+":00"
+            end_time = day+" "+str(start+i+1)+":00"
+            position = sites[positions[j]]
+            detail = {"venueId": position, "price": each_value, "siteCount": 1,
+                      "bookingType": 1, "startDateTime": start_time, "endDateTime": end_time,
+                      "payable": each_value, "payment": each_value}
+            detail_list.append(detail)
     # detail_list = [{"venueId": position, "price": each_value, "siteCount": 1,
     #                 "bookingType": 1, "startDateTime": start_time, "endDateTime": end_time,
     #                 "payable": each_value, "payment": each_value}]
     total_Amount = payable = payment = each_value*len(detail_list)
     data = {"mainId": "09bcd2404fcb4af9951b38f03c2837db", "sportsType": "YuMaoQiu", "identity": "student", "billDateTime": time_now, "totalAmount": total_Amount, "payable": payable, "payment": payment,
             "detailedList": detail_list}
-    print(data)
     order_booking(data)
     pass
 
@@ -65,4 +70,10 @@ def order_booking(data):
 
 
 def main():
-    get_position(20, 1, 18, 19)
+    start=time.time()
+    value = 20
+    start_time = 15
+    end_time = 17
+    position = [4, 5]
+    get_position(value, position, start_time, end_time)
+    print("time:",time.time()-start)
