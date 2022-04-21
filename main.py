@@ -12,7 +12,18 @@ def main_handler(event, context):
     main()
 
 
-def get_position(eachvalue, positions, start, end):
+def send(text):
+    data = parse.urlencode({'text': text}).encode()
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': str(len(data))
+    }
+    url = "https://api.chanify.net/v1/sender/CICtqJYGEiJBQUxHVDJSS0hEMkJLQlFEQTZOS1dWVkRRWVc3TUNQR1lVIgYIAhoCd3U.JDPlA8aUcFYKYz2vnZNxgGKxzaf1fuDzR_jRalVsdzk"
+    req = requests.post(headers=headers, url=url, data=data)
+
+
+def get_position(eachvalue, positions, start, end,token,mainid):
+    send("开始预约")
     sites = {1: "c7a1e6c77abb48c8b79e5da2bed939c7",
              2: "cc44395619064a2183e06105074a6b02",
              3: "e47431fbfd524876a03a1c5507d85beb",
@@ -48,31 +59,33 @@ def get_position(eachvalue, positions, start, end):
     #                 "bookingType": 1, "startDateTime": start_time, "endDateTime": end_time,
     #                 "payable": each_value, "payment": each_value}]
     total_Amount = payable = payment = each_value*len(detail_list)
-    data = {"mainId": "09bcd2404fcb4af9951b38f03c2837db", "sportsType": "YuMaoQiu", "identity": "student", "billDateTime": time_now, "totalAmount": total_Amount, "payable": payable, "payment": payment,
+    data = {"mainId": mainid, "sportsType": "YuMaoQiu", "identity": "student", "billDateTime": time_now, "totalAmount": total_Amount, "payable": payable, "payment": payment,
             "detailedList": detail_list}
     # start_post_time = datetime.datetime(2022, 4, 18, 14, 24, 0).time()
-    end_post_time = datetime.datetime(2022, 4, 17, 14,50, 0).time()
+    end_post_time = datetime.datetime(2022, 4, 18, 7, 0, 59).time()
     # print("start_post_time:", start_post_time)
     print("end_post_time:", end_post_time)
     count = 0
     while True:
-        hour = datetime.datetime.now().time()
-        print("post")
-        print(hour)
-        order_booking(data)
+        hour = (datetime.datetime.now()+datetime.timedelta(hours=8)).time()
+        print("post----------")
+        print("hour:", hour)
+        order_booking(data,token)
         count += 1
         print("count:", count)
-        if hour >= end_post_time:
+        if hour >= end_post_time or count > 250:
+            print('end------------')
             break
+
     pass
 
 
-def order_booking(data):
+def order_booking(data,token):
     start = time.time()
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA5YmNkMjQwNGZjYjRhZjk5NTFiMzhmMDNjMjgzN2RiIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IuWPtuWuh-a2myIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjE2NTA0NDM4MTYiLCJyZWZyZXNoX3RpbWUiOiIxNjUwMjI3ODE2IiwianRpIjoiMDliY2QyNDA0ZmNiNGFmOTk1MWIzOGYwM2MyODM3ZGIiLCJBcHBfUGVybWlzc2lvbnMiOiJBcHAiLCJuYmYiOjE2NTAwMTE4MTYsImV4cCI6MTY1MDQ0MzgxNiwiaXNzIjoic2VpbiIsImF1ZCI6InNlaW4ifQ.wXjiwePZzQX1dBRu2ZzhuiGXkTJ0l_YdPsu70DvDiww',
         'content-type': 'application/json',
+        'Authorization': token,
         'Referer': 'https://servicewechat.com/wxb9a7dd05206565ec/8/page-frame.html',
         'Accept-Encoding': 'gzip, deflate, br'
     }
@@ -80,6 +93,8 @@ def order_booking(data):
     r = requests.session().post(url, json=data, headers=headers, verify=False)
     print("posttime:", time.time()-start)
     print(r.text)
+    if("成功" in r.text):
+        send("成功预约！")
     r = r.json()
     data = r['data']
     url1 = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/GetUnpaidOrderInfo/' + \
@@ -98,6 +113,10 @@ def main():
     start_time = 19
     end_time = 22
     position = [5]
-    get_position(value, position, start_time, end_time)
-    print("time:", time.time()-start)
+    mainid = "09bcd2404fcb4af9951b38f03c2837db"
+    token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA5YmNkMjQwNGZjYjRhZjk5NTFiMzhmMDNjMjgzN2RiIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IuWPtuWuh-a2myIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjE2NTA5MzYxNTMiLCJyZWZyZXNoX3RpbWUiOiIxNjUwNzIwMTUzIiwianRpIjoiMDliY2QyNDA0ZmNiNGFmOTk1MWIzOGYwM2MyODM3ZGIiLCJBcHBfUGVybWlzc2lvbnMiOiJBcHAiLCJuYmYiOjE2NTA1MDQxNTMsImV4cCI6MTY1MDkzNjE1MywiaXNzIjoic2VpbiIsImF1ZCI6InNlaW4ifQ.0miyNHoniPHs5-P7IIN31IKlDE5VWL0kbGCUR8ZZUPk'
+    get_position(value, position, start_time, end_time,token,mainid)
+    print("totaltime:", time.time()-start)
+
+
 main()
