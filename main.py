@@ -5,6 +5,7 @@ import requests
 import datetime
 import time
 import urllib3
+
 urllib3.disable_warnings()
 
 
@@ -21,7 +22,6 @@ def send(text):
     url = "https://api.chanify.net/v1/sender/CICtqJYGEiJBQUxHVDJSS0hEMkJLQlFEQTZOS1dWVkRRWVc3TUNQR1lVIgYIAhoCd3U.JDPlA8aUcFYKYz2vnZNxgGKxzaf1fuDzR_jRalVsdzk"
     req = requests.post(headers=headers, url=url, data=data)
 
-
 def get_position(eachvalue, positions, start, end,token,mainid):
     send("开始预约")
     sites = {1: "c7a1e6c77abb48c8b79e5da2bed939c7",
@@ -36,7 +36,7 @@ def get_position(eachvalue, positions, start, end,token,mainid):
              10: "2d3182fed841487caa4b62c677bf8f33"}
     day = (datetime.datetime.now() +
            datetime.timedelta(hours=8)).strftime('%Y-%m-%d')
-    time_now = (datetime.datetime.now()+datetime.timedelta(hours=8)
+    time_now = (datetime.datetime.now() + datetime.timedelta(hours=8)
                 ).strftime('%Y-%m-%d %H:%M:%S')
     print(time_now)
     print(day)
@@ -44,12 +44,12 @@ def get_position(eachvalue, positions, start, end,token,mainid):
     # start_time = day+" "+start+":00"
     # end_time = day+" "+end+":00"
     each_value = eachvalue
-    gap = end-start
+    gap = end - start
     detail_list = []
     for i in range(gap):
         for j in range(len(positions)):
-            start_time = day+" "+str(start+i)+":00"
-            end_time = day+" "+str(start+i+1)+":00"
+            start_time = day + " " + str(start + i) + ":00"
+            end_time = day + " " + str(start + i + 1) + ":00"
             position = sites[positions[j]]
             detail = {"venueId": position, "price": each_value, "siteCount": 1,
                       "bookingType": 1, "startDateTime": start_time, "endDateTime": end_time,
@@ -91,16 +91,17 @@ def order_booking(data,token):
     }
     url = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/CreateOrder'
     r = requests.session().post(url, json=data, headers=headers, verify=False)
-    print("posttime:", time.time()-start)
+    print("posttime:", time.time() - start)
     print(r.text)
     if("成功" in r.text):
+
         send("成功预约！")
     r = r.json()
     data = r['data']
     url1 = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/GetUnpaidOrderInfo/' + \
-        str(data)
+           str(data)
     url2 = 'https://wltyzx.cug.edu.cn/api/app/WeixinOrder/GetMemberPaymentType/' + \
-        str(data)
+           str(data)
     r1 = requests.get(url1, headers=headers, verify=False)
     r2 = requests.get(url2, headers=headers, verify=False)
     print(r1.text)
@@ -120,3 +121,4 @@ def main():
 
 
 main()
+
