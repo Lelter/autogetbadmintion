@@ -14,13 +14,14 @@ def main_handler(event, context):
 
 
 def send(text):
-    data = parse.urlencode({'text': text}).encode()
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': str(len(data))
-    }
-    url = "https://api.chanify.net/v1/sender/CICtqJYGEiJBQUxHVDJSS0hEMkJLQlFEQTZOS1dWVkRRWVc3TUNQR1lVIgYIAhoCd3U.JDPlA8aUcFYKYz2vnZNxgGKxzaf1fuDzR_jRalVsdzk"
-    req = requests.post(headers=headers, url=url, data=data)
+    pass
+    # data = parse.urlencode({'text': text}).encode()
+    # headers = {
+    #     'Content-Type': 'application/x-www-form-urlencoded',
+    #     'Content-Length': str(len(data))
+    # }
+    # url = "https://api.chanify.net/v1/sender/CICtqJYGEiJBQUxHVDJSS0hEMkJLQlFEQTZOS1dWVkRRWVc3TUNQR1lVIgYIAhoCd3U.JDPlA8aUcFYKYz2vnZNxgGKxzaf1fuDzR_jRalVsdzk"
+    # req = requests.post(headers=headers, url=url, data=data)
 
 def get_position(eachvalue, positions, start, end,token,mainid):
     send("开始预约")
@@ -114,8 +115,8 @@ def main():
     start_time = 19
     end_time = 22
     position = [5]
-    mainid = "09bcd2404fcb4af9951b38f03c2837db"
-    token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA5YmNkMjQwNGZjYjRhZjk5NTFiMzhmMDNjMjgzN2RiIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IuWPtuWuh-a2myIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjE2NTA5MzYxNTMiLCJyZWZyZXNoX3RpbWUiOiIxNjUwNzIwMTUzIiwianRpIjoiMDliY2QyNDA0ZmNiNGFmOTk1MWIzOGYwM2MyODM3ZGIiLCJBcHBfUGVybWlzc2lvbnMiOiJBcHAiLCJuYmYiOjE2NTA1MDQxNTMsImV4cCI6MTY1MDkzNjE1MywiaXNzIjoic2VpbiIsImF1ZCI6InNlaW4ifQ.0miyNHoniPHs5-P7IIN31IKlDE5VWL0kbGCUR8ZZUPk'
+    mainid = "填写你的mainid"
+    token = '填写你的token'
     get_position(value, position, start_time, end_time,token,mainid)
     print("totaltime:", time.time()-start)
 
