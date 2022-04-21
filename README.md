@@ -4,7 +4,6 @@
 
 如果抢到场地，将发送至channify提示成功预约。  
 
----
 ## 使用方法：
 
 1.利用fiddler抓取返回头部的mainId和请求头部中的Token。 
@@ -13,7 +12,6 @@
 
 3.放置在服务器上，定时七点启动，默认抢250次，大约90秒。   
 
----
 ## 示例
 **如果需要在早上7点抢19点至22点场，参数设置如下：**
 
@@ -26,7 +24,7 @@
 **fiddler使用方法：**  
 打开电脑端微信小程序，打开fiddler，登录进入地大体育。  
 预约一个场地，查看抓包获得的请求头和返回头中的mainid和token。 
-![token](.\Snipaste_2022-04-21_11-18-12.png)
+![token](Snipaste_2022-04-21_11-18-12.png)
 token在Security中的Authorization。  
 mainid位于抓包中的如下地址的最后一个后缀：
 https://wltyzx.cug.edu.cn/api/app/WeixinReserve/GetFieldArea/YuMaoQiu/student/09b233333333  
@@ -35,6 +33,5 @@ https://wltyzx.cug.edu.cn/api/app/WeixinReserve/GetFieldArea/YuMaoQiu/student/09
 **channify使用方法**  
 可用可不用。不用把send()函数注释掉就行。
 
----
 ## 遇到问题
 1.token会过期，大约一周时间，每次都需要重新抓取，比较麻烦，目前无解，需要手动更新。  
