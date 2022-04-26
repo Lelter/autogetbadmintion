@@ -35,3 +35,6 @@ https://wltyzx.cug.edu.cn/api/app/WeixinReserve/GetFieldArea/YuMaoQiu/student/09
 
 ## 遇到问题
 1.token会过期，大约一周时间，每次都需要重新抓取，比较麻烦，目前无解，需要手动更新。  
+
+解决方法1：录一个脚本，每天定时更新token，缺点是在服务器上比较难实现，得用自己电脑。  
+解决方法2：试试appium部署在服务器上，没试过，缺点是没法白嫖腾讯云函数了。
