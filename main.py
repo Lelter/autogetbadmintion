@@ -34,7 +34,17 @@ def get_position(eachvalue, positions, start, end,token,mainid):
              7: "10715133add844669aa2b238791dc65b",
              8: "dd5f9b38bfb645c6a1c7ba1e22d26321",
              9: "a48298dc3c3242c58af5b9c31d0d4795",
-             10: "2d3182fed841487caa4b62c677bf8f33"}
+             10: "2d3182fed841487caa4b62c677bf8f33",
+             11: '7f82a4d546e94a8b9719206a61be842b',
+             12: '5e7169c8e2eb49cc9fb4346f4b8c8837',
+             13: 'fb82bf61e55a41678942b3675f9c9999',
+             14: 'b799f9371f1b4c52ba12ac9faa34c251',
+             15: 'ddf1c4bd7a9e41c398f4899b23c94e7c',
+             16: '0f2dd393890e4f008122a387bdce7c08',
+             17: '648ff49e90ac4c85b729e3eb5a1db7ab',
+             18: '48fef4c93cb440748bbd9347ab0dec0f',
+             19: '6fc850fca0a146c6b20c7f6ef46a05d7',
+             }
     day = (datetime.datetime.now() +
            datetime.timedelta(hours=8)).strftime('%Y-%m-%d')
     time_now = (datetime.datetime.now() + datetime.timedelta(hours=8)
